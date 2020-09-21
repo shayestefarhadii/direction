@@ -1,0 +1,408 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Contact-Us Form With A Map Template | PrepBootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font.css' %}">
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+
+
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <!-- remember, jQuery is completely optional -->
+  <!-- <script type='text/javascript' src='js/jquery-1.11.1.min.js'></script> -->
+  <script type='text/javascript' src="{% static 'js/jquery.particleground.js' %}"></script>
+  <script type='text/javascript' src='{% static 'js/demo.js' %}'></script>
+
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+
+
+
+</head>
+<body>
+<div id="particles">
+<div id="intro">
+<div class="container">
+
+<div class="page-header">
+    <h1>مسیریابی و تخمین زمان رسیدن </h1>
+</div>
+
+<!-- Contact-Us Form With A Map - START -->
+
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-md-7">
+            <div id="map" style="width:100%; height:400px; margin-top: 10px;"></div>
+        </div>
+        <br />
+
+        <div class="col-md-5">
+
+            <form class="my-form" name="ff">
+
+
+                <div class="panel panel-primary">
+      <div class="panel-heading">برای انتخاب طول و عرض جغرافیایی مبدا و مقصد، بر روی نقشه کلیک کنید و سپس نمایش مسر را بفشارید
+
+          زمان و مسافت تخمینی در کادر زیر نمایان خواهد شد
+           (عملیات نمایش مسیر ممکن است کمی طول بکشد)
+      </div>
+      <div class="panel-body">
+
+                      <p id="cost"></p>
+                      <p id="time"></p>
+
+      </div>
+    </div>
+
+                <div class="lin form-group">
+                    <label for="form-name">طول جغرافیایی مبدا</label>
+                    <input id="aa" name="q1" class="form-control" readonly />
+                </div>
+
+                <div class="lin form-group">
+                    <label for="form-email">عرض جغرافیایی مبدا</label>
+                    <input class="form-control" type="text" id="bb" name="q2" readonly />
+                </div>
+
+                <p id="demo"></p>
+
+
+            </form>
+
+
+               <form class="my-form" name="tt">
+              <div class="lin form-group">
+                    <label for="form-name"> طول جغرافیایی مقصد</label>
+                    <input id="cc" name="u1" class="form-control" readonly />
+                </div>
+                <div class="lin form-group">
+                    <label for="form-email">عرض جغرافیایی مقصد</label>
+                    <input class="form-control" type="text" id="dd" name="u2" readonly />
+
+
+                </div>
+                   <br>
+                   <br>
+
+                     <div class="col-md-6">
+                   <a href="{% url 'a_dir' %}">
+                    <div>
+                    <input class="btn btn-default"type="button" value="تلاش مجدد" >
+                </div></a>
+                       </div>
+
+
+                        <div class="col-md-4">
+                <input type="button" class="btn btn-default" value="یافتن مسیر" id="sender">
+                <p id="demo"></p>
+                            <p id="p-text"></p></div>
+
+
+
+
+
+
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<style>
+       body{
+        font-family: 'yekan';
+    }
+
+
+.lin{
+    margin-bottom: 5px;
+    line-height: 2;
+}
+
+.my-form {
+    color: inherit;
+    font-size: 17px;
+    /* line-height: 2; */
+    font-weight: bold;
+    text-align: right;
+}
+    .my-form .btn-default {
+        background-color: #305896;
+        color: #fff;
+        border-radius: 0;
+    }
+    .my-form .btn-default:hover {
+        background-color: #4498C6;
+        color: #fff;
+    }
+    .my-form .form-control {
+        border-radius: 0;
+        text-align: right;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+    color: navy;
+    font-weight: bold;
+    font-size: 17px;
+}
+    .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #007777;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+    .cc{
+        height: 300px;
+    }
+    textarea.form-control {
+    height: 200px;
+    color: floralwhite;
+    font-size: 20px;
+    line-height: 46px;
+}
+.h1, h1 {
+    font-size: 36px;
+    text-align: right;
+}
+    .panel-primary>.panel-heading {
+    color: #fff;
+    background-color: #1c3b56;
+    border-color: #000000;
+        margin-top: -11px;
+}
+
+    .panel-primary {
+    border-color: #337ab7;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+    p {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+    .page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 3px solid #1c3b56;
+}
+</style>
+
+
+
+
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWVzdGU5OCIsImEiOiJja2UzeDhvYm4wbmpuMzduN2U5Z3h2cWprIn0.euwKxVA1OHlN4buGwnJb_w';
+	mapboxgl.setRTLTextPlugin(
+'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
+null,
+true // Lazy load the plugin
+);
+
+
+
+
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/mapbox/streets-v11',
+center: [53.6880,32.4279], // starting position
+zoom: 4 // starting zoom
+});
+
+
+var sum = 0;
+var aa;
+var bb;
+let marker;
+let marker2;
+
+ var trainStationIcon_orig = document.createElement('c');
+trainStationIcon_orig.style.width = '25px';
+trainStationIcon_orig.style.height = '35px';
+trainStationIcon_orig.style.backgroundImage = "url({% static 'map-svg/map-ori.svg' %})";
+trainStationIcon_orig.style.cursor = "pointer";
+
+
+ var trainStationIcon = document.createElement('c');
+trainStationIcon.style.width = '25px';
+trainStationIcon.style.height = '35px';
+trainStationIcon.style.backgroundImage = "url({% static 'map-svg/map-des.svg' %})";
+trainStationIcon.style.cursor = "pointer";
+
+
+
+    map.once('click', function(e) {
+
+
+    aa =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[0]]
+    bb =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[1]]
+    document.getElementById("a");
+    document.ff.q1.value=aa;
+    document.getElementById("b");
+    document.ff.q2.value=bb;
+    marker2 = new mapboxgl.Marker(trainStationIcon_orig, {
+    anchor: 'bottom',
+    offset: [0, 5]
+  }).setLngLat([aa, bb]).addTo(map);
+});
+    function clearFields() {
+        map.removeLayer('route')
+
+
+    document.getElementById("aa").value=""
+    document.getElementById("bb").value=""
+    document.getElementById("cc").value=""
+    document.getElementById("dd").value=""
+            sum=0;
+               marker2.remove();
+               marker.remove();
+                map.once('click', function(e) {
+
+
+    aa =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[0]]
+    bb =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[1]]
+    document.getElementById("a");
+    document.ff.q1.value=aa;
+    document.getElementById("b");
+    document.ff.q2.value=bb;
+    marker2 = new mapboxgl.Marker(trainStationIcon_orig, {
+    anchor: 'bottom',
+    offset: [0, 5]
+  }).setLngLat([aa, bb]).addTo(map);
+
+});
+
+
+}
+
+    map.on('click', function(e) {
+    var cc =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[0]]
+    var dd =  e.lngLat.wrap()[Object.keys(e.lngLat.wrap())[1]]
+
+    document.getElementById("c");
+    document.getElementById("d");
+
+    if(sum===0) {
+        document.tt.u1.value='';
+        document.tt.u2.value = '';
+        sum++;
+        marker = new mapboxgl.Marker(trainStationIcon, {
+        anchor: 'bottom',
+            offset: [0, 5]
+         }).setLngLat([cc, dd]).addTo(map);
+    }
+    else {
+        marker.remove();
+        document.tt.u1.value=cc;
+        document.tt.u2.value = dd;
+        marker = new mapboxgl.Marker(trainStationIcon, {
+    anchor: 'bottom',
+    offset: [0, 5]
+  }).setLngLat([cc, dd]).addTo(map);
+
+    }
+
+
+});
+
+
+
+$("#sender").click(function () {
+    var or_long = $('#aa').val();
+    var or_lat = $('#bb').val();
+    var des_long = $('#cc').val();
+    var des_lat = $('#dd').val();
+        document.getElementById("sender").disabled = true;
+
+    $.ajax({
+        url: '{% url 'dir' %}',
+        data: {
+          'inputValue_or_long': or_long,
+          'inputValue_or_lat': or_lat,
+          'inputValue_des_long': des_long,
+          'inputValue_des_lat': des_lat
+        },
+        dataType: 'json',
+
+        success: function (data) {
+            document.getElementById('time').innerHTML = 'زمان رسیدن (دقیقه):' +' '+ data['time'];
+            document.getElementById('cost').innerHTML = 'مسافت (متر):' +' '+ data['cost'];
+            var t = JSON.parse(data['data'])
+
+map.addSource('route', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': t
+}
+}
+});
+map.addLayer({
+'id': 'route',
+'type': 'line',
+'source': 'route',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#FF00FF',
+'line-width': 8
+}
+});
+}
+
+
+      });
+    });
+
+
+</script>
+
+<div id="a"></div>
+<div id="b"></div>
+<div id="c"></div>
+<div id="d"></div>
+<!-- Contact-Us Form With A Map - END -->
+
+</div>
+</div>
+</div>
+</body>
+</html>

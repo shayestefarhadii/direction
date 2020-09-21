@@ -1,0 +1,6 @@
+venv
+.vscode/
+maps/__pycache__/
+djmaps/__pycache__/
+maps/migrations/__pycache__/
+db.sqlite3
